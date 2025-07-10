@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { FriendsProvider } from './context/FriendsContext';
+import { BillsProvider } from './context/BillsContext';
+import FriendsManager from './components/FriendsManager';
+import BillForm from './components/BillForm';
+import BillList from './components/BillList';
+import SettlementSummary from './components/SettlementSummary';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Bill Splitter</h1>
+      <FriendsProvider>
+        <BillsProvider>
+          <FriendsManager />
+          <BillForm />
+          <BillList />
+          <SettlementSummary />
+        </BillsProvider>
+      </FriendsProvider>
     </div>
   );
 }
