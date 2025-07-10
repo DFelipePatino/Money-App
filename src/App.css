@@ -1,22 +1,29 @@
 .app {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem;
-  font-family: sans-serif;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .bill-form, .bill-list, .settlement-summary {
   background: #f9f9f9;
-  margin: 1rem 0;
-  padding: 1rem;
-  border-radius: 8px;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-input, button {
-  margin: 0.25rem;
-  padding: 0.5rem;
-  border-radius: 4px;
+input, select, button {
+  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 button {
@@ -24,6 +31,11 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  background: #155fa0;
 }
 
 button:disabled {
@@ -31,8 +43,15 @@ button:disabled {
   cursor: not-allowed;
 }
 
+select {
+  background: white;
+  appearance: none;
+  border: 1px solid #ccc;
+}
+
 @media (max-width: 600px) {
   .app {
-    padding: 0.5rem;
+    margin: 1rem;
+    padding: 1rem;
   }
 }

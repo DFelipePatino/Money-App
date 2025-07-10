@@ -10,7 +10,7 @@ import './App.css';
 function App() {
   return (
     <div className="app">
-      <h1>Bill Splitter</h1>
+      <h1>Italia Perras</h1>
       <FriendsProvider>
         <BillsProvider>
           <FriendsManager />

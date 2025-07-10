@@ -10,8 +10,8 @@ export default function SettlementSummary() {
 
   return (
     <div className="settlement-summary">
-      <h2>Settlement Summary</h2>
-      <h3>Net Balances</h3>
+      <h2>Division</h2>
+      <h3>Gastos Totales Individuales</h3>
       <ul>
         {Object.entries(net).map(([name, bal]) => (
           <li key={name}>
@@ -19,7 +19,7 @@ export default function SettlementSummary() {
           </li>
         ))}
       </ul>
-      <h3>Transactions</h3>
+      <h3>Transacciones</h3>
       <ul>
         {transactions.length === 0
           ? <li>All settled up!</li>

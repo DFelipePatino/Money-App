@@ -5,13 +5,13 @@ export default function BillList() {
   const { bills, removeBill } = useContext(BillsContext);
   return (
     <div className="bill-list">
-      <h2>Bills</h2>
+      <h2>Gastos</h2>
       {bills.length === 0 && <p>No bills added yet.</p>}
       {bills.map(bill => (
         <div key={bill.id} className="bill">
           <strong>{bill.description}</strong> <br />
           <span>Total: ${bill.total.toFixed(2)}</span> <br />
-          <span>Payer: {bill.payer}</span> <br />
+          <span>Perra: {bill.payer}</span> <br />
           <span>Split: {bill.splitType === 'equal' ? 'Equally' : 'Unequally'}</span>
           <ul>
             {bill.splits.map((c, i) => (
@@ -35,7 +35,7 @@ export default function BillList() {
         });
         return (
           <div className="totals" style={{ marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
-            <strong>Total spent as a group: ${groupTotal.toFixed(2)}</strong>
+            <strong>Gastos totales como grupo: ${groupTotal.toFixed(2)}</strong>
             <ul style={{ marginTop: '0.5rem' }}>
               {Object.entries(personTotals).map(([name, total]) => (
                 <li key={name}>{name}: ${total.toFixed(2)}</li>

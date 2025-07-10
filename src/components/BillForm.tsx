@@ -61,75 +61,90 @@ export default function BillForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bill-form">
-      <h2>Add Bill</h2>
+<form onSubmit={handleSubmit} className="bill-form">
+  <h2>Agregar gasto</h2>
+
+  <input
+    className="input"
+    placeholder="¿Qué se pagó?"
+    value={description}
+    onChange={e => setDescription(e.target.value)}
+    required
+  />
+  <input
+    className="input"
+    placeholder="Total"
+    type="number"
+    value={total}
+    onChange={e => setTotal(e.target.value)}
+    required
+    min="0.01"
+    step="0.01"
+  />
+
+  <select
+    className="select"
+    title="¿Quién paga?"
+    value={payer}
+    onChange={e => setPayer(e.target.value)}
+    required
+  >
+    <option value="" disabled>¿Quién paga?</option>
+    {friends.map(f => (
+      <option key={f.id} value={f.name}>{f.name}</option>
+    ))}
+  </select>
+
+  <div className="radio-group">
+    <label className="radio-option">
       <input
-        placeholder="Bill description"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        required
+        type="radio"
+        checked={splitType === 'equal'}
+        onChange={() => setSplitType('equal')}
       />
+      Todos Pagan Igual
+    </label>
+    <label className="radio-option">
       <input
-        placeholder="Total amount"
-        type="number"
-        value={total}
-        onChange={e => setTotal(e.target.value)}
-        required
-        min="0.01"
-        step="0.01"
+        type="radio"
+        checked={splitType === 'unequal'}
+        onChange={() => setSplitType('unequal')}
       />
-      <select value={payer} onChange={e => setPayer(e.target.value)} required>
-        <option value="" disabled>Select payer</option>
-        {friends.map(f => (
-          <option key={f.id} value={f.name}>{f.name}</option>
-        ))}
-      </select>
-      <div style={{ margin: '0.5rem 0' }}>
-        <label>
+      Se Paga Independientemente
+    </label>
+  </div>
+
+  {splitType === 'equal' ? (
+    <select
+      className="select multi-select"
+      multiple
+      value={selectedFriends}
+      onChange={handleFriendSelect}
+    >
+      {friends.map(f => (
+        <option key={f.id} value={f.name}>{f.name}</option>
+      ))}
+    </select>
+  ) : (
+    <div className="custom-split">
+      {friends.map(f => (
+        <div key={f.id} className="split-row">
+          <label>{f.name}:</label>
           <input
-            type="radio"
-            checked={splitType === 'equal'}
-            onChange={() => setSplitType('equal')}
+            className="input"
+            type="number"
+            min="0"
+            step="0.01"
+            value={customSplits.find(s => s.name === f.name)?.amount || ''}
+            onChange={e => handleCustomSplitChange(f.name, e.target.value)}
           />
-          Split equally
-        </label>
-        <label style={{ marginLeft: 16 }}>
-          <input
-            type="radio"
-            checked={splitType === 'unequal'}
-            onChange={() => setSplitType('unequal')}
-          />
-          Split unequally
-        </label>
-      </div>
-      {splitType === 'equal' ? (
-        <select
-          multiple
-          value={selectedFriends}
-          onChange={handleFriendSelect}
-          style={{ minHeight: 60 }}
-        >
-          {friends.map(f => (
-            <option key={f.id} value={f.name}>{f.name}</option>
-          ))}
-        </select>
-      ) : (
-        <div>
-          {friends.map(f => (
-            <div key={f.id}>
-              <label>{f.name}: </label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={customSplits.find(s => s.name === f.name)?.amount || ''}
-                onChange={e => handleCustomSplitChange(f.name, e.target.value)}
-              />
-            </div>
-          ))}
         </div>
-      )}
-      <button type="submit" style={{ marginTop: 12 }}>Add Bill</button>
-    </form>
+      ))}
+    </div>
+  )}
+
+  <button className="submit-btn" type="submit">Agregar Gasto</button>
+</form>
+
   );
 }
