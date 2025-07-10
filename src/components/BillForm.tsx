@@ -12,6 +12,7 @@ export default function BillForm() {
   const [splitType, setSplitType] = useState<'equal' | 'unequal'>('equal');
   const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
   const [customSplits, setCustomSplits] = useState<BillSplit[]>([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleFriendSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const options = Array.from(e.target.selectedOptions).map(o => o.value);
@@ -31,7 +32,9 @@ export default function BillForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!description || !total || !payer) return;
+
     let splits: BillSplit[] = [];
+
     if (splitType === 'equal') {
       const people = selectedFriends.length > 0 ? selectedFriends : friends.map(f => f.name);
       const share = Number(total) / people.length;
@@ -44,6 +47,7 @@ export default function BillForm() {
         return;
       }
     }
+
     addBill({
       id: Date.now().toString(),
       description,
@@ -52,6 +56,10 @@ export default function BillForm() {
       splitType,
       splits,
     });
+
+    setSuccessMessage('Nuevo gasto agregado');
+    setTimeout(() => setSuccessMessage(''), 3000);
+
     setDescription('');
     setTotal('');
     setPayer('');
@@ -61,90 +69,91 @@ export default function BillForm() {
   };
 
   return (
-<form onSubmit={handleSubmit} className="bill-form">
-  <h2>Agregar gasto</h2>
+    <form onSubmit={handleSubmit} className="bill-form">
+      <h2>Agregar gasto</h2>
 
-  <input
-    className="input"
-    placeholder="¿Qué se pagó?"
-    value={description}
-    onChange={e => setDescription(e.target.value)}
-    required
-  />
-  <input
-    className="input"
-    placeholder="Total"
-    type="number"
-    value={total}
-    onChange={e => setTotal(e.target.value)}
-    required
-    min="0.01"
-    step="0.01"
-  />
+      {successMessage && <div className="success-message">{successMessage}</div>}
 
-  <select
-    className="select"
-    title="¿Quién paga?"
-    value={payer}
-    onChange={e => setPayer(e.target.value)}
-    required
-  >
-    <option value="" disabled>¿Quién paga?</option>
-    {friends.map(f => (
-      <option key={f.id} value={f.name}>{f.name}</option>
-    ))}
-  </select>
-
-  <div className="radio-group">
-    <label className="radio-option">
       <input
-        type="radio"
-        checked={splitType === 'equal'}
-        onChange={() => setSplitType('equal')}
+        className="input"
+        placeholder="¿Qué se pagó?"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+        required
       />
-      Todos Pagan Igual
-    </label>
-    <label className="radio-option">
       <input
-        type="radio"
-        checked={splitType === 'unequal'}
-        onChange={() => setSplitType('unequal')}
+        className="input"
+        placeholder="Total"
+        type="number"
+        value={total}
+        onChange={e => setTotal(e.target.value)}
+        required
+        min="0.01"
+        step="0.01"
       />
-      Se Paga Independientemente
-    </label>
-  </div>
 
-  {splitType === 'equal' ? (
-    <select
-      className="select multi-select"
-      multiple
-      value={selectedFriends}
-      onChange={handleFriendSelect}
-    >
-      {friends.map(f => (
-        <option key={f.id} value={f.name}>{f.name}</option>
-      ))}
-    </select>
-  ) : (
-    <div className="custom-split">
-      {friends.map(f => (
-        <div key={f.id} className="split-row">
-          <label>{f.name}:</label>
+      <select
+        className="select"
+        title="¿Quién paga?"
+        value={payer}
+        onChange={e => setPayer(e.target.value)}
+        required
+      >
+        <option value="" disabled>¿Quién paga?</option>
+        {friends.map(f => (
+          <option key={f.id} value={f.name}>{f.name}</option>
+        ))}
+      </select>
+
+      <div className="radio-group">
+        <label className="radio-option">
           <input
-            className="input"
-            type="number"
-            min="0"
-            step="0.01"
-            value={customSplits.find(s => s.name === f.name)?.amount || ''}
-            onChange={e => handleCustomSplitChange(f.name, e.target.value)}
+            type="radio"
+            checked={splitType === 'equal'}
+            onChange={() => setSplitType('equal')}
           />
+          Todos Pagan Igual
+        </label>
+        <label className="radio-option">
+          <input
+            type="radio"
+            checked={splitType === 'unequal'}
+            onChange={() => setSplitType('unequal')}
+          />
+          Se Paga Independientemente
+        </label>
+      </div>
+
+      {splitType === 'equal' ? (
+        <select
+          className="select multi-select"
+          multiple
+          value={selectedFriends}
+          onChange={handleFriendSelect}
+        >
+          {friends.map(f => (
+            <option key={f.id} value={f.name}>{f.name}</option>
+          ))}
+        </select>
+      ) : (
+        <div className="custom-split">
+          {friends.map(f => (
+            <div key={f.id} className="split-row">
+              <label>{f.name}:</label>
+              <input
+                className="input"
+                type="number"
+                min="0"
+                step="0.01"
+                value={customSplits.find(s => s.name === f.name)?.amount || ''}
+                onChange={e => handleCustomSplitChange(f.name, e.target.value)}
+              />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  )}
+      )}
 
-  <button className="submit-btn" type="submit">Agregar Gasto</button>
-</form>
-
+      <button className="submit-btn" type="submit">Agregar Gasto</button>
+    </form>
   );
 }
