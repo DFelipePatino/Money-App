@@ -11,8 +11,8 @@ export type BillSplit = {
 export type Bill = {
   id: string;
   description: string;
-  total: number;
-  payer: string; // friend's name
+  total: number;        // 👈 total amount of the bill
+  payer: string;        // 👈 name of the person who paid
   splitType: 'equal' | 'unequal';
-  splits: BillSplit[]; // for equal, amounts are auto-calculated
+  splits: BillSplit[];  // for equal, amounts are auto-calculated
 };
