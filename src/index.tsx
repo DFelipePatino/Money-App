@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Initialize theme from localStorage before rendering
+const storedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', storedTheme);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

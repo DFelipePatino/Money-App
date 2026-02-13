@@ -1,66 +1,662 @@
-.app {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+/* Mobile-first modern design */
+:root {
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --danger-color: #ef4444;
+  --danger-hover: #dc2626;
+  --success-color: #10b981;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
 }
 
-.bill-form, .bill-list, .settlement-summary {
-  background: #f9f9f9;
-  margin: 1.5rem 0;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+/* Dark mode */
+[data-theme="dark"] {
+  --primary-color: #818cf8;
+  --primary-hover: #6366f1;
+  --danger-color: #f87171;
+  --danger-hover: #ef4444;
+  --success-color: #34d399;
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
-input, select, button {
-  margin: 0.5rem 0;
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 100%;
+* {
   box-sizing: border-box;
 }
 
-button {
-  background: #1976d2;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:hover:not(:disabled) {
-  background: #155fa0;
+body {
+  background: var(--bg-color);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+.app {
+  max-width: 100%;
+  margin: 0;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
 }
 
-select {
-  background: white;
+.app h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card styles */
+.bill-form,
+.bill-list,
+.settlement-summary,
+.friends-manager {
+  background: var(--card-bg);
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.25rem 0;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+/* Form elements */
+.input,
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+[data-theme="dark"] .input:focus,
+[data-theme="dark"] .select:focus {
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+}
+
+.select-label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.select {
   appearance: none;
-  border: 1px solid #ccc;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236366f1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
 }
 
-@media (max-width: 600px) {
+[data-theme="dark"] .select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23818cf8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+.select[multiple] {
+  min-height: 120px;
+  background-image: none;
+  padding-right: 1rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.875rem;
+  font-size: 1rem;
+}
+
+.btn-download {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Radio group */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-option:hover {
+  border-color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+[data-theme="dark"] .radio-option:hover {
+  background: rgba(129, 140, 248, 0.15);
+}
+
+.radio-option input[type="radio"] {
+  margin: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+/* Friends Manager */
+.friends-form {
+  margin-bottom: 1.25rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.friends-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.friend-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Bill Form */
+.custom-split {
+  margin: 1rem 0;
+}
+
+.split-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+
+.split-row label {
+  min-width: 100px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.split-row .input {
+  flex: 1;
+  margin: 0;
+}
+
+/* Success message */
+.success-message {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #10b981;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .success-message {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+/* Bill List */
+.bills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bill-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.bill-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.bill-description {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.bill-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.bill-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill-label {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.bill-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bill-splits {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.splits-title {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.splits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.split-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--card-bg);
+  border-radius: 6px;
+  font-size: 0.9375rem;
+}
+
+/* Totals */
+.totals {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.totals h3 {
+  margin-bottom: 1rem;
+}
+
+.totals-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.total-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .total-group {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(167, 139, 250, 0.2));
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+.total-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.125rem;
+}
+
+.total-amount {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.total-individuals {
+  padding: 1rem;
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+}
+
+.total-individuals strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.total-individuals ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.total-individuals li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.total-individuals li:last-child {
+  border-bottom: none;
+}
+
+/* Settlement Summary */
+.summary-content {
+  padding: 1rem;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+}
+
+.summary-section {
+  margin-top: 1.5rem;
+}
+
+.summary-section:first-of-type {
+  margin-top: 0;
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  background: var(--bg-color);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.summary-item.owed {
+  border-left: 4px solid var(--success-color);
+}
+
+.summary-item.owes {
+  border-left: 4px solid var(--danger-color);
+}
+
+.summary-item .amount {
+  font-weight: 600;
+}
+
+.transactions-list {
+  margin-top: 1rem;
+}
+
+.transaction-item {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .transaction-item {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(167, 139, 250, 0.15));
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+.settled-message {
+  text-align: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--success-color);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+[data-theme="dark"] .settled-message {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(16, 185, 129, 0.2));
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem 1rem;
+  font-style: italic;
+}
+
+/* Responsive design - Tablet and up */
+@media (min-width: 640px) {
   .app {
-    margin: 1rem;
-    padding: 1rem;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .app h1 {
+    font-size: 2rem;
+  }
+
+  .input-group {
+    flex-direction: row;
+  }
+
+  .input-group .input {
+    flex: 1;
+  }
+
+  .radio-group {
+    flex-direction: row;
+  }
+
+  .bill-details {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .bill-detail-row {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .totals-summary {
+    flex-direction: row;
+  }
+
+  .total-group,
+  .total-individuals {
+    flex: 1;
   }
 }
 
+/* Desktop */
+@media (min-width: 1024px) {
+  .app {
+    max-width: 900px;
+    padding: 2rem;
+  }
 
-.success-message {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  .app h1 {
+    font-size: 2.5rem;
+  }
+
+  .bill-form,
+  .bill-list,
+  .settlement-summary,
+  .friends-manager {
+    padding: 1.5rem;
+  }
+
+  .bills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .btn,
+  .friends-manager,
+  .bill-form {
+    display: none;
+  }
+
+  .bill-list,
+  .settlement-summary {
+    box-shadow: none;
+    border: none;
+    page-break-inside: avoid;
+  }
 }

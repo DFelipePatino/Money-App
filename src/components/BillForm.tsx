@@ -57,7 +57,7 @@ export default function BillForm() {
       splits,
     });
 
-    setSuccessMessage('Nuevo gasto agregado');
+    setSuccessMessage('New expense added successfully!');
     setTimeout(() => setSuccessMessage(''), 3000);
 
     setDescription('');
@@ -70,20 +70,20 @@ export default function BillForm() {
 
   return (
     <form onSubmit={handleSubmit} className="bill-form">
-      <h2>Agregar gasto</h2>
+      <h2>Add Expense</h2>
 
       {successMessage && <div className="success-message">{successMessage}</div>}
 
       <input
         className="input"
-        placeholder="¿Qué se pagó?"
+        placeholder="What was paid?"
         value={description}
         onChange={e => setDescription(e.target.value)}
         required
       />
       <input
         className="input"
-        placeholder="Total"
+        placeholder="Total Amount"
         type="number"
         value={total}
         onChange={e => setTotal(e.target.value)}
@@ -94,12 +94,12 @@ export default function BillForm() {
 
       <select
         className="select"
-        title="¿Quién paga?"
+        title="Who paid?"
         value={payer}
         onChange={e => setPayer(e.target.value)}
         required
       >
-        <option value="" disabled>¿Quién paga?</option>
+        <option value="" disabled>Who paid?</option>
         {friends.map(f => (
           <option key={f.id} value={f.name}>{f.name}</option>
         ))}
@@ -112,7 +112,7 @@ export default function BillForm() {
             checked={splitType === 'equal'}
             onChange={() => setSplitType('equal')}
           />
-          Todos Pagan Igual
+          Split Equally
         </label>
         <label className="radio-option">
           <input
@@ -120,21 +120,26 @@ export default function BillForm() {
             checked={splitType === 'unequal'}
             onChange={() => setSplitType('unequal')}
           />
-          Se Paga Independientemente
+          Custom Split
         </label>
       </div>
 
       {splitType === 'equal' ? (
-        <select
-          className="select multi-select"
-          multiple
-          value={selectedFriends}
-          onChange={handleFriendSelect}
-        >
-          {friends.map(f => (
-            <option key={f.id} value={f.name}>{f.name}</option>
-          ))}
-        </select>
+        <div>
+          <label className="select-label">
+            Select friends to split with (hold Ctrl/Cmd to select multiple, or leave empty to include all):
+          </label>
+          <select
+            className="select multi-select"
+            multiple
+            value={selectedFriends}
+            onChange={handleFriendSelect}
+          >
+            {friends.map(f => (
+              <option key={f.id} value={f.name}>{f.name}</option>
+            ))}
+          </select>
+        </div>
       ) : (
         <div className="custom-split">
           {friends.map(f => (
@@ -153,7 +158,7 @@ export default function BillForm() {
         </div>
       )}
 
-      <button className="submit-btn" type="submit">Agregar Gasto</button>
+      <button className="btn btn-primary submit-btn" type="submit">Add Expense</button>
     </form>
   );
 }

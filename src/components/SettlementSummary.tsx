@@ -47,45 +47,59 @@ export default function SettlementSummary() {
 
   return (
     <div className="settlement-summary">
-      <div ref={summaryRef} style={{ padding: '16px', background: '#fff', color: '#000' }}>
-        <h2>Resumen Completo</h2>
+      <h2>Settlement Summary</h2>
+      <div ref={summaryRef} className="summary-content">
+        <h3>Complete Summary</h3>
 
         {/* All bills printed */}
         <PrintableBillList />
 
-        {/* NEW: Total spent per person */}
-        <h3 style={{ marginTop: '2rem' }}>Total Gastado por Persona</h3>
-        <ul>
-          {Object.entries(totalSpentPerPerson).map(([name, amount]) => (
-            <li key={name}>
-              {name}: ${amount.toFixed(2)}
-            </li>
-          ))}
-        </ul>
+        {/* Total spent per person */}
+        <div className="summary-section">
+          <h3>Total Spent per Person</h3>
+          <ul className="summary-list">
+            {Object.entries(totalSpentPerPerson).map(([name, amount]) => (
+              <li key={name} className="summary-item">
+                <span>{name}:</span>
+                <span className="amount">${amount.toFixed(2)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <h3 style={{ marginTop: '2rem' }}>Gastos Totales Individuales (Balance Neto)</h3>
-        <ul>
-          {Object.entries(net).map(([name, bal]) => (
-            <li key={name}>
-              {name}: {bal > 0 ? `is owed $${bal.toFixed(2)}` : `owes $${(-bal).toFixed(2)}`}
-            </li>
-          ))}
-        </ul>
+        <div className="summary-section">
+          <h3>Net Balances</h3>
+          <ul className="summary-list">
+            {Object.entries(net).map(([name, bal]) => (
+              <li key={name} className={`summary-item ${bal > 0 ? 'owed' : 'owes'}`}>
+                <span>{name}:</span>
+                <span className="amount">
+                  {bal > 0 ? `is owed $${bal.toFixed(2)}` : `owes $${(-bal).toFixed(2)}`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <h3 style={{ marginTop: '1rem' }}>Transacciones</h3>
-        <ul>
-          {transactions.length === 0
-            ? <li>All settled up!</li>
-            : transactions.map((t, i) => (
-                <li key={i}>
-                  {t.from} pays {t.to}: ${t.amount.toFixed(2)}
+        <div className="summary-section">
+          <h3>Transactions</h3>
+          {transactions.length === 0 ? (
+            <p className="settled-message">All settled up! 🎉</p>
+          ) : (
+            <ul className="summary-list transactions-list">
+              {transactions.map((t, i) => (
+                <li key={i} className="summary-item transaction-item">
+                  <span>{t.from} pays {t.to}:</span>
+                  <span className="amount">${t.amount.toFixed(2)}</span>
                 </li>
               ))}
-        </ul>
+            </ul>
+          )}
+        </div>
       </div>
 
-      <button onClick={generatePDF} style={{ marginTop: '1rem' }}>
-        Descargar resumen en PDF
+      <button onClick={generatePDF} className="btn btn-primary btn-download">
+        Download PDF Summary
       </button>
     </div>
   );
